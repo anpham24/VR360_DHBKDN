@@ -1,0 +1,263 @@
+/* ===== VR360 VIEW ===== */
+#vr-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background: #000;
+}
+
+/* ===== VR TOOLBAR ===== */
+.vr-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 300;
+}
+
+.btn-back {
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.vr-title {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn-fullscreen {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 18px;
+  transition: var(--transition);
+}
+
+.btn-fullscreen:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===== PANORAMA ===== */
+.panorama-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== MINIMAP ===== */
+.minimap-container {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 180px;
+  height: 140px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-lg);
+  z-index: 300;
+  opacity: 0.9;
+  transition: var(--transition);
+}
+
+.minimap-container:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+#minimap {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===== INFO POPUP ===== */
+.info-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+}
+
+.info-popup-content {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 420px;
+  width: 90%;
+  position: relative;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.info-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-light);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.info-close:hover {
+  background: var(--border);
+}
+
+.info-popup-content h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  padding-right: 40px;
+}
+
+.info-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+
+.info-popup-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+.info-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 20px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+
+/* ===== CUSTOM HOTSPOT ===== */
+.custom-hotspot-nav {
+  width: 36px;
+  height: 36px;
+  background: rgba(26, 115, 232, 0.85);
+  border-radius: 50%;
+  border: 3px solid white;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.custom-hotspot-nav:hover {
+  transform: scale(1.2);
+  background: rgba(26, 115, 232, 1);
+}
+
+.custom-hotspot-nav::after {
+  content: '→';
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.custom-hotspot-info {
+  width: 32px;
+  height: 32px;
+  background: rgba(52, 168, 83, 0.85);
+  border-radius: 50%;
+  border: 3px solid white;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.custom-hotspot-info:hover {
+  transform: scale(1.2);
+  background: rgba(52, 168, 83, 1);
+}
+
+.custom-hotspot-info::after {
+  content: 'i';
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* ===== HOTSPOT TOOLTIP ===== */
+.hotspot-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+}
+
+.custom-hotspot-nav:hover .hotspot-tooltip,
+.custom-hotspot-info:hover .hotspot-tooltip {
+  opacity: 1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .vr-toolbar {
+    height: 40px;
+    padding: 0 8px;
+  }
+
+  .vr-title {
+    font-size: 13px;
+  }
+
+  .minimap-container {
+    width: 120px;
+    height: 90px;
+    bottom: 12px;
+    left: 12px;
+  }
+}

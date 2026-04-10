@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VR360 - Tham quan ĐH Bách Khoa Đà Nẵng</title>
+
+  <!-- Leaflet Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+  <!-- Pannellum VR360 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css">
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/map.css">
+  <link rel="stylesheet" href="css/viewer.css">
+</head>
+<body>
+  <!-- ==================== MAP VIEW ==================== -->
+  <div id="map-view">
+    <header class="header">
+      <div class="header-logo">
+        <img src="assets/images/logo.png" alt="Logo" class="logo-img">
+        <h1>ĐH Bách Khoa Đà Nẵng - VR360</h1>
+      </div>
+      <nav class="header-nav">
+        <a href="#" id="btn-about">Giới thiệu</a>
+        <a href="admin.html" id="btn-admin">Admin</a>
+      </nav>
+    </header>
+
+    <div class="map-container">
+      <aside class="sidebar" id="sidebar">
+        <h2>Khu vực tham quan</h2>
+        <div class="location-list" id="location-list">
+          <!-- Render bằng JS -->
+        </div>
+      </aside>
+      <div id="map" class="map"></div>
+    </div>
+  </div>
+
+  <!-- ==================== VR360 VIEW ==================== -->
+  <div id="vr-view" class="hidden">
+    <div class="vr-toolbar">
+      <button id="btn-back-map" class="btn-back">← Về bản đồ</button>
+      <span id="vr-title" class="vr-title">Tên khu vực</span>
+      <button id="btn-fullscreen" class="btn-fullscreen">⛶</button>
+    </div>
+
+    <div id="panorama" class="panorama-container"></div>
+
+    <div id="minimap-container" class="minimap-container">
+      <div id="minimap"></div>
+    </div>
+
+    <div id="info-popup" class="info-popup hidden">
+      <div class="info-popup-content">
+        <button id="info-close" class="info-close">×</button>
+        <h3 id="info-title"></h3>
+        <img id="info-image" class="info-image" src="" alt="">
+        <p id="info-content"></p>
+        <a id="info-url" href="#" target="_blank" class="info-link hidden">Xem thêm</a>
+      </div>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <p>Đang tải ảnh 360°...</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
+
+  <script src="js/utils/constants.js"></script>
+  <script src="js/utils/helpers.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/data/sampleData.js"></script>
+  <script src="js/map/MapView.js"></script>
+  <script src="js/map/MapMarker.js"></script>
+  <script src="js/viewer/VRViewer.js"></script>
+  <script src="js/viewer/HotspotManager.js"></script>
+  <script src="js/viewer/SceneLoader.js"></script>
+  <script src="js/viewer/Minimap.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
