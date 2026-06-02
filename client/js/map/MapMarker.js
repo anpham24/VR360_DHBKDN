@@ -1,50 +1,72 @@
 /**
- * MapMarker — Tạo & quản lý marker trên bản đồ Leaflet
+ * MapMarker — Tạo hotspot marker overlay trên ảnh campus
  */
 class MapMarker {
-  constructor(map, location, onClick) {
-    this.map = map;
+  constructor(mapContainer, location, onClick) {
+    this.mapContainer = mapContainer;
     this.location = location;
     this.onClick = onClick;
-    this.leafletMarker = null;
+    this.element = null;
 
     this._create();
   }
 
   _create() {
-    const { markerLat, markerLng, name, description, thumbnail } = this.location;
+    const { posX, posY, name, description, hasScenes } = this.location;
+    const markersContainer = this.mapContainer.querySelector('#campus-markers');
 
-    this.leafletMarker = L.marker([markerLat, markerLng]).addTo(this.map);
+    this.element = document.createElement('div');
+    this.element.className = `campus-hotspot ${hasScenes ? 'active' : 'inactive'}`;
+    this.element.style.left = `${posX}%`;
+    this.element.style.top = `${posY}%`;
 
-    const popupHtml = `
-      <div class="marker-popup">
-        <img src="${thumbnail}" alt="${name}">
+    this.element.innerHTML = `
+      <div class="hotspot-pin">
+        <div class="hotspot-ping"></div>
+        <div class="hotspot-dot"></div>
+      </div>
+      <div class="hotspot-label">${name}</div>
+      <div class="hotspot-popup">
         <h3>${name}</h3>
         <p>${description}</p>
-        <button class="btn-explore" data-location-id="${this.location.locationId}">
-          Tham quan 360°
+        <button class="btn-explore" ${!hasScenes ? 'disabled' : ''}>
+          ${hasScenes ? '🔭 Tham quan 360°' : '🚧 Sắp có'}
         </button>
       </div>
     `;
 
-    this.leafletMarker.bindPopup(popupHtml);
-    this.leafletMarker.on('click', () => this.leafletMarker.openPopup());
-
-    this.leafletMarker.on('popupopen', () => {
-      const btn = document.querySelector(`[data-location-id="${this.location.locationId}"]`);
-      if (btn) {
-        btn.addEventListener('click', () => this.onClick(this.location));
-      }
+    this.element.addEventListener('click', (e) => {
+      // Close other popups
+      markersContainer.querySelectorAll('.campus-hotspot.show-popup').forEach(el => {
+        if (el !== this.element) el.classList.remove('show-popup');
+      });
+      this.element.classList.toggle('show-popup');
+      e.stopPropagation();
     });
+
+    const btn = this.element.querySelector('.btn-explore');
+    if (hasScenes) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.onClick(this.location);
+      });
+    }
+
+    // Close popup when clicking outside
+    document.addEventListener('click', () => {
+      this.element.classList.remove('show-popup');
+    });
+
+    markersContainer.appendChild(this.element);
   }
 
   highlight() {
-    this.leafletMarker.openPopup();
+    this.element.classList.add('show-popup');
   }
 
   remove() {
-    if (this.leafletMarker) {
-      this.map.removeLayer(this.leafletMarker);
+    if (this.element) {
+      this.element.remove();
     }
   }
 }

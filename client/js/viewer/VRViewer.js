@@ -25,6 +25,12 @@ class VRViewer {
       hfov: scene.defaultHfov || CONFIG.DEFAULT_HFOV,
       minHfov: CONFIG.MIN_HFOV,
       maxHfov: CONFIG.MAX_HFOV,
+      // Ảnh là panorama 360° ngang nhưng giới hạn chiều dọc (tỉ lệ ~5.6:1).
+      // Khai báo đúng góc phủ để Pannellum KHÔNG kéo giãn dọc lên 180° → ảnh nét
+      // và đúng tỉ lệ. Có thể override theo từng scene nếu cần.
+      haov: scene.haov || CONFIG.DEFAULT_HAOV,
+      vaov: scene.vaov || CONFIG.DEFAULT_VAOV,
+      vOffset: scene.vOffset || 0,
       compass: false,
       showControls: false,
       mouseZoom: true,

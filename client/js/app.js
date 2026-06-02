@@ -6,7 +6,6 @@ const App = {
   vrViewer: null,
   hotspotManager: null,
   sceneLoader: null,
-  minimap: null,
 
   init() {
     this._initMap();
@@ -15,8 +14,8 @@ const App = {
   },
 
   _initMap() {
-    this.mapView = new MapView('map');
-    this.mapView.init(CONFIG.MAP_CENTER, CONFIG.MAP_ZOOM);
+    this.mapView = new MapView('campus-map');
+    this.mapView.init(SampleData.tour.campusImage);
 
     SampleData.locations.forEach(loc => {
       this.mapView.addMarker(loc, (location) => this._openVR(location));
@@ -29,16 +28,6 @@ const App = {
     this.vrViewer = new VRViewer('panorama');
     this.hotspotManager = new HotspotManager(this.vrViewer);
     this.sceneLoader = new SceneLoader(this.vrViewer, this.hotspotManager);
-
-    this.minimap = new Minimap('minimap');
-    this.minimap.init(CONFIG.MAP_CENTER, 16);
-
-    this.sceneLoader.onSceneChange = (scene) => {
-      const location = SampleData.getLocationById(scene.locationId);
-      if (location) {
-        this.minimap.updatePosition(location.markerLat, location.markerLng, location.name);
-      }
-    };
   },
 
   _renderSidebar() {
@@ -46,11 +35,12 @@ const App = {
     if (!list) return;
 
     list.innerHTML = SampleData.locations.map(loc => `
-      <div class="location-card" data-location-id="${loc.locationId}">
-        <img class="location-card-thumb" src="${loc.thumbnail}" alt="${loc.name}">
+      <div class="location-card ${loc.hasScenes ? '' : 'disabled'}" data-location-id="${loc.locationId}">
+        <div class="location-card-icon">${loc.hasScenes ? '🔭' : '🚧'}</div>
         <div class="location-card-info">
           <h3>${loc.name}</h3>
           <p>${loc.description}</p>
+          ${!loc.hasScenes ? '<span class="badge-coming">Sắp có</span>' : ''}
         </div>
       </div>
     `).join('');
@@ -67,21 +57,22 @@ const App = {
   _openVR(location) {
     const scenes = SampleData.getScenesForLocation(location.locationId);
     if (!scenes.length) {
-      Helpers.toast('Chưa có ảnh 360° cho khu vực này', 'warning');
+      Helpers.toast('Chưa có ảnh 360° cho khu vực này. Sắp cập nhật!', 'warning');
       return;
     }
 
     Helpers.hide('#map-view');
     Helpers.show('#vr-view');
 
-    this.sceneLoader.loadScene(scenes[0]);
+    // Load scene list for sequential navigation
+    this.sceneLoader.loadSceneList(scenes, 0);
   },
 
   _closeVR() {
     Helpers.show('#map-view');
     Helpers.hide('#vr-view');
     this.vrViewer.destroy();
-    setTimeout(() => this.mapView.map.invalidateSize(), 100);
+    this.sceneLoader.reset();
   },
 
   _bindEvents() {
@@ -91,12 +82,23 @@ const App = {
       this.vrViewer.toggleFullscreen();
     });
 
+    Helpers.$('#btn-prev-scene')?.addEventListener('click', () => this.sceneLoader.loadPrev());
+    Helpers.$('#btn-next-scene')?.addEventListener('click', () => this.sceneLoader.loadNext());
+
     Helpers.$('#info-close')?.addEventListener('click', () => {
       Helpers.hide('#info-popup');
     });
 
     Helpers.$('#info-popup')?.addEventListener('click', (e) => {
       if (e.target.id === 'info-popup') Helpers.hide('#info-popup');
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (Helpers.$('#vr-view')?.classList.contains('hidden')) return;
+      if (e.key === 'ArrowRight') this.sceneLoader.loadNext();
+      if (e.key === 'ArrowLeft') this.sceneLoader.loadPrev();
+      if (e.key === 'Escape') this._closeVR();
     });
   }
 };

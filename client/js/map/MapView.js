@@ -1,24 +1,25 @@
 /**
- * MapView — Quản lý bản đồ Leaflet hiển thị campus
+ * MapView — Hiển thị ảnh campus với hotspot markers overlay
+ * Thay thế Leaflet bằng ảnh tĩnh + CSS positioned hotspots
  */
 class MapView {
   constructor(containerId) {
     this.containerId = containerId;
-    this.map = null;
+    this.container = document.getElementById(containerId);
     this.markers = [];
   }
 
-  init(center, zoom) {
-    this.map = L.map(this.containerId).setView(center, zoom);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(this.map);
+  init(campusImage) {
+    this.container.innerHTML = `
+      <div class="campus-map-wrapper">
+        <img src="${campusImage}" alt="Bản đồ campus ĐH Bách Khoa Đà Nẵng" class="campus-map-img" id="campus-img">
+        <div class="campus-markers" id="campus-markers"></div>
+      </div>
+    `;
   }
 
   addMarker(location, onClick) {
-    const marker = new MapMarker(this.map, location, onClick);
+    const marker = new MapMarker(this.container, location, onClick);
     this.markers.push(marker);
     return marker;
   }
@@ -28,14 +29,8 @@ class MapView {
     this.markers = [];
   }
 
-  flyTo(lat, lng, zoom = 18) {
-    this.map.flyTo([lat, lng], zoom);
-  }
-
   destroy() {
-    if (this.map) {
-      this.map.remove();
-      this.map = null;
-    }
+    this.container.innerHTML = '';
+    this.markers = [];
   }
 }

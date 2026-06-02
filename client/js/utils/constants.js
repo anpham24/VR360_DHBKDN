@@ -13,6 +13,10 @@ const CONFIG = {
   MIN_HFOV: 50,
   MAX_HFOV: 120,
 
+  // Góc phủ của ảnh panorama (ảnh 360° ngang, giới hạn dọc ~64° do tỉ lệ ~5.6:1)
+  DEFAULT_HAOV: 360,
+  DEFAULT_VAOV: 64,
+
   PANNELLUM_AUTO_ROTATE: -2,
   PANNELLUM_AUTO_LOAD: true,
 

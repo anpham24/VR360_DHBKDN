@@ -15,46 +15,63 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 48px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(to bottom, rgba(8,12,24,0.75) 0%, rgba(8,12,24,0.35) 70%, rgba(8,12,24,0) 100%);
   z-index: 300;
+  pointer-events: none;
+}
+
+.vr-toolbar > * {
+  pointer-events: all;
 }
 
 .btn-back {
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: white;
-  border-radius: var(--radius);
+  border-radius: 999px;
   font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
   transition: var(--transition);
 }
 
 .btn-back:hover {
   background: rgba(255, 255, 255, 0.25);
+  transform: translateX(-2px);
 }
 
 .vr-title {
   color: white;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .btn-fullscreen {
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.15);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: white;
-  border-radius: var(--radius);
+  border-radius: 50%;
   font-size: 18px;
+  backdrop-filter: blur(10px);
   transition: var(--transition);
 }
 
 .btn-fullscreen:hover {
   background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.08);
 }
 
 /* ===== PANORAMA ===== */
@@ -63,30 +80,61 @@
   height: 100%;
 }
 
-/* ===== MINIMAP ===== */
-.minimap-container {
+/* ===== SCENE COUNTER ===== */
+.scene-counter {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  width: 180px;
-  height: 140px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  box-shadow: var(--shadow-lg);
-  z-index: 300;
-  opacity: 0.9;
-  transition: var(--transition);
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 310;
+  padding: 8px 20px;
+  background: rgba(8, 12, 24, 0.55);
+  backdrop-filter: blur(10px);
+  color: white;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-.minimap-container:hover {
-  opacity: 1;
-  transform: scale(1.05);
+/* ===== SCENE NAV BUTTONS (Trước / Sau) ===== */
+.scene-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 310;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  line-height: 1;
+  color: white;
+  background: rgba(8, 12, 24, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
 }
 
-#minimap {
-  width: 100%;
-  height: 100%;
+.scene-nav-prev { left: 20px; }
+.scene-nav-next { right: 20px; }
+
+.scene-nav-btn:hover:not(:disabled) {
+  background: rgba(26, 115, 232, 0.85);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scene-nav-prev:hover:not(:disabled) { transform: translateY(-50%) scale(1.1) translateX(-3px); }
+.scene-nav-next:hover:not(:disabled) { transform: translateY(-50%) scale(1.1) translateX(3px); }
+
+.scene-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 /* ===== INFO POPUP ===== */
@@ -167,33 +215,200 @@
   font-size: 14px;
 }
 
-/* ===== CUSTOM HOTSPOT ===== */
-.custom-hotspot-nav {
-  width: 36px;
-  height: 36px;
-  background: rgba(26, 115, 232, 0.85);
-  border-radius: 50%;
-  border: 3px solid white;
+/* ============================================================
+   TRANSITION OVERLAY — Hiệu ứng chuyển cảnh kiểu Google Street View
+   Gồm 3 phase:
+   1. zoom-forward: zoom vào hướng hotspot + blur tăng dần
+   2. (load scene mới trong lúc overlay phủ kín)
+   3. fade-in: overlay biến mất, scene mới hiện ra
+   ============================================================ */
+.transition-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 305;
+  pointer-events: none;
+  opacity: 0;
+  transition: none;
+}
+
+.transition-overlay.zoom-forward {
+  opacity: 1;
+  background: radial-gradient(
+    circle at var(--zoom-x, 50%) var(--zoom-y, 50%),
+    rgba(8,12,24,0) 0%,
+    rgba(8,12,24,0.1) 18%,
+    rgba(8,12,24,0.8) 58%,
+    rgba(8,12,24,1) 100%
+  );
+  transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%);
+  animation: streetviewZoom 0.5s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+.transition-overlay.fade-in {
+  opacity: 0;
+  background: rgba(8,12,24,1);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes streetviewZoom {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    transform: scale(1);
+  }
+  45% {
+    opacity: 0.7;
+    backdrop-filter: blur(3px);
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+    transform: scale(1.12);
+  }
+}
+
+/* ============================================================
+   GOOGLE STREET VIEW ARROW — Mũi tên điều hướng trên mặt đất
+   Thiết kế: hình tròn bán trong suốt + mũi tên chevron bên trong
+   Khi hover: phóng to, phát sáng, hiện tooltip tên scene đích
+   ============================================================ */
+.streetview-arrow {
   cursor: pointer;
-  transition: var(--transition);
+  width: 60px;
+  height: 60px;
+  transition: transform 0.25s ease;
+  z-index: 10;
+}
+
+.streetview-arrow:hover {
+  transform: scale(1.3);
+}
+
+.sv-arrow-inner {
+  position: relative;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.custom-hotspot-nav:hover {
-  transform: scale(1.2);
-  background: rgba(26, 115, 232, 1);
+/* Vòng tròn nền — vầng sáng mờ trên mặt đất */
+.sv-arrow-ring {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.08) 60%,
+    transparent 100%
+  );
+  border: 2.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.15),
+    inset 0 0 8px rgba(255, 255, 255, 0.1);
+  transition: all 0.25s ease;
 }
 
-.custom-hotspot-nav::after {
-  content: '→';
+.streetview-arrow:hover .sv-arrow-ring {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.15) 60%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.3),
+    0 0 40px rgba(66, 133, 244, 0.2),
+    inset 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Mũi tên chevron — xoay theo hướng di chuyển */
+.sv-arrow-chevron {
+  position: relative;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  transition: transform 0.25s ease;
+}
+
+.sv-arrow-chevron svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+.sv-arrow-chevron svg path {
+  fill: rgba(255, 255, 255, 0.85);
+  transition: fill 0.25s ease;
+}
+
+.streetview-arrow:hover .sv-arrow-chevron svg path {
+  fill: rgba(255, 255, 255, 1);
+}
+
+/* Pulse animation nhẹ khi idle — thu hút chú ý */
+.sv-arrow-ring {
+  animation: arrowPulse 3s ease-in-out infinite;
+}
+
+.streetview-arrow:hover .sv-arrow-ring {
+  animation: none;
+}
+
+@keyframes arrowPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* Tooltip — tên scene đích, hiện khi hover */
+.sv-arrow-tooltip {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: rgba(32, 33, 36, 0.9);
   color: white;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
+.sv-arrow-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(32, 33, 36, 0.9);
+}
+
+.streetview-arrow:hover .sv-arrow-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ===== INFO HOTSPOT ===== */
 .custom-hotspot-info {
   width: 32px;
   height: 32px;
@@ -221,7 +436,7 @@
   font-style: italic;
 }
 
-/* ===== HOTSPOT TOOLTIP ===== */
+/* ===== HOTSPOT TOOLTIP (info) ===== */
 .hotspot-tooltip {
   position: absolute;
   bottom: calc(100% + 8px);
@@ -238,7 +453,6 @@
   transition: var(--transition);
 }
 
-.custom-hotspot-nav:hover .hotspot-tooltip,
 .custom-hotspot-info:hover .hotspot-tooltip {
   opacity: 1;
 }
@@ -254,10 +468,29 @@
     font-size: 13px;
   }
 
-  .minimap-container {
-    width: 120px;
-    height: 90px;
-    bottom: 12px;
-    left: 12px;
+  .streetview-arrow {
+    width: 48px;
+    height: 48px;
+  }
+
+  .sv-arrow-inner {
+    width: 48px;
+    height: 48px;
+  }
+
+  .sv-arrow-ring {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sv-arrow-chevron {
+    width: 22px;
+    height: 22px;
+  }
+
+  .scene-counter {
+    bottom: 16px;
+    font-size: 12px;
+    padding: 6px 14px;
   }
 }
