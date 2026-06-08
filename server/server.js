@@ -25,6 +25,30 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`VR360 Server running at http://localhost:${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log('\n========================================================');
+  console.log('   ✅ VR360 SERVER ĐANG CHẠY!');
+  console.log('========================================================');
+  console.log(`   👉 Mở trình duyệt và dán link sau:`);
+  console.log('');
+  console.log(`      http://localhost:${PORT}`);
+  console.log('');
+  console.log('   Nhấn Ctrl + C để dừng server.');
+  console.log('========================================================\n');
+});
+
+// Báo lỗi thân thiện nếu cổng đang bị chiếm (thay vì đổ stack trace dài)
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error('\n========================================================');
+    console.error(`   ⚠️  Cổng ${PORT} đang bị một chương trình khác sử dụng.`);
+    console.error('   → Có thể server đã chạy sẵn rồi. Hãy thử mở trình duyệt:');
+    console.error(`        http://localhost:${PORT}`);
+    console.error('   → Hoặc tắt tiến trình cũ rồi chạy lại bằng lệnh:');
+    console.error(`        lsof -ti :${PORT} | xargs kill -9   (macOS)`);
+    console.error('========================================================\n');
+    process.exit(1);
+  } else {
+    throw err;
+  }
 });
