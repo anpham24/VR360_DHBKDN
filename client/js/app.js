@@ -7,7 +7,14 @@ const App = {
   hotspotManager: null,
   sceneLoader: null,
 
-  init() {
+  async init() {
+    try {
+      await Store.load();
+    } catch (err) {
+      console.error('Store.load error:', err);
+      Helpers.toast('Không tải được dữ liệu từ máy chủ. Hãy kiểm tra MySQL / kết nối.', 'error', 6000);
+      return;
+    }
     this._initMap();
     this._initVR();
     this._bindEvents();
@@ -15,9 +22,9 @@ const App = {
 
   _initMap() {
     this.mapView = new MapView('campus-map');
-    this.mapView.init(SampleData.tour.campusImage);
+    this.mapView.init(Store.tour.campusImage);
 
-    SampleData.locations.forEach(loc => {
+    Store.locations.forEach(loc => {
       this.mapView.addMarker(loc, (location) => this._openVR(location));
     });
 
@@ -34,7 +41,7 @@ const App = {
     const list = Helpers.$('#location-list');
     if (!list) return;
 
-    list.innerHTML = SampleData.locations.map(loc => `
+    list.innerHTML = Store.locations.map(loc => `
       <div class="location-card ${loc.hasScenes ? '' : 'disabled'}" data-location-id="${loc.locationId}">
         <div class="location-card-icon">${loc.hasScenes ? '🔭' : '🚧'}</div>
         <div class="location-card-info">
@@ -48,14 +55,14 @@ const App = {
     list.querySelectorAll('.location-card').forEach(card => {
       card.addEventListener('click', () => {
         const locId = card.dataset.locationId;
-        const location = SampleData.getLocationById(locId);
+        const location = Store.getLocationById(locId);
         if (location) this._openVR(location);
       });
     });
   },
 
   _openVR(location) {
-    const scenes = SampleData.getScenesForLocation(location.locationId);
+    const scenes = Store.getScenesForLocation(location.locationId);
     if (!scenes.length) {
       Helpers.toast('Chưa có ảnh 360° cho khu vực này. Sắp cập nhật!', 'warning');
       return;

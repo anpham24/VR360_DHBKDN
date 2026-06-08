@@ -11,25 +11,21 @@ CREATE TABLE IF NOT EXISTS tours (
   tour_id VARCHAR(36) PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  map_image VARCHAR(500),
-  map_center_lat DECIMAL(10,7) DEFAULT 16.0748000,
-  map_center_lng DECIMAL(10,7) DEFAULT 108.1510000,
-  map_zoom INT DEFAULT 17,
+  campus_image VARCHAR(500),
   default_scene_id VARCHAR(36),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Bảng Locations (Khu vực)
+-- Bảng Locations (Khu vực) — vị trí marker tính theo % kích thước ảnh bản đồ
 CREATE TABLE IF NOT EXISTS locations (
   location_id VARCHAR(36) PRIMARY KEY,
   tour_id VARCHAR(36) NOT NULL,
   name VARCHAR(255) NOT NULL,
   description TEXT,
-  thumbnail VARCHAR(500),
-  marker_lat DECIMAL(10,7) NOT NULL,
-  marker_lng DECIMAL(10,7) NOT NULL,
-  marker_icon VARCHAR(255),
+  pos_x DECIMAL(6,2) NOT NULL DEFAULT 50,
+  pos_y DECIMAL(6,2) NOT NULL DEFAULT 50,
+  start_scene_index INT DEFAULT 0,
   order_index INT DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (tour_id) REFERENCES tours(tour_id) ON DELETE CASCADE
@@ -45,6 +41,9 @@ CREATE TABLE IF NOT EXISTS scenes (
   default_yaw DECIMAL(6,2) DEFAULT 0,
   default_pitch DECIMAL(6,2) DEFAULT 0,
   default_hfov DECIMAL(6,2) DEFAULT 100,
+  haov DECIMAL(6,2) DEFAULT NULL,
+  vaov DECIMAL(6,2) DEFAULT NULL,
+  v_offset DECIMAL(6,2) DEFAULT NULL,
   order_index INT DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE CASCADE

@@ -900,3 +900,9 @@ const SampleData = {
     return this.scenes.filter(s => s.locationId === locationId);
   }
 };
+
+// Cho phép server (Node.js) require file này để seed dữ liệu vào DB.
+// Trên trình duyệt, `module` không tồn tại nên đoạn này được bỏ qua.
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = SampleData;
+}

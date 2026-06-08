@@ -127,7 +127,7 @@ class SceneLoader {
   _handleNavClick(hotspot) {
     if (this.isTransitioning) return;
 
-    const targetScene = SampleData.getSceneById(hotspot.targetSceneId);
+    const targetScene = Store.getSceneById(hotspot.targetSceneId);
     if (!targetScene) {
       Helpers.toast('Không tìm thấy scene đích', 'error');
       return;

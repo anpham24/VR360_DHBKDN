@@ -19,10 +19,10 @@ const Tour = {
   },
 
   async create(data) {
-    const { tour_id, name, description, map_image, map_center_lat, map_center_lng, map_zoom, default_scene_id } = data;
+    const { tour_id, name, description, campus_image, default_scene_id } = data;
     await db.query(
-      'INSERT INTO tours (tour_id, name, description, map_image, map_center_lat, map_center_lng, map_zoom, default_scene_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [tour_id, name, description, map_image, map_center_lat, map_center_lng, map_zoom, default_scene_id]
+      'INSERT INTO tours (tour_id, name, description, campus_image, default_scene_id) VALUES (?, ?, ?, ?, ?)',
+      [tour_id, name, description || null, campus_image || null, default_scene_id || null]
     );
     return this.getById(tour_id);
   },

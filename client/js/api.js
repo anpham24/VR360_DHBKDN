@@ -25,6 +25,7 @@ const API = {
   },
 
   // ===== PUBLIC =====
+  getData()              { return this._fetch('/data'); },
   getTours()             { return this._fetch('/tours'); },
   getTour(id)            { return this._fetch(`/tours/${id}`); },
   getLocation(id)        { return this._fetch(`/locations/${id}`); },

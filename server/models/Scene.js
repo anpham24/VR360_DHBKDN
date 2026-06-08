@@ -19,10 +19,10 @@ const Scene = {
   },
 
   async create(data) {
-    const { scene_id, location_id, title, image_url, thumbnail, default_yaw, default_pitch, default_hfov, order_index } = data;
+    const { scene_id, location_id, title, image_url, thumbnail, default_yaw, default_pitch, default_hfov, haov, vaov, v_offset, order_index } = data;
     await db.query(
-      'INSERT INTO scenes (scene_id, location_id, title, image_url, thumbnail, default_yaw, default_pitch, default_hfov, order_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [scene_id, location_id, title, image_url, thumbnail, default_yaw || 0, default_pitch || 0, default_hfov || 100, order_index || 0]
+      'INSERT INTO scenes (scene_id, location_id, title, image_url, thumbnail, default_yaw, default_pitch, default_hfov, haov, vaov, v_offset, order_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [scene_id, location_id, title, image_url, thumbnail || null, default_yaw || 0, default_pitch || 0, default_hfov || 100, haov ?? null, vaov ?? null, v_offset ?? null, order_index || 0]
     );
     return this.getById(scene_id);
   },
