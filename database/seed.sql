@@ -10,4 +10,4 @@
 USE vr360_dut;
 
 INSERT IGNORE INTO admins (admin_id, username, password_hash, display_name) VALUES
-('admin-001', 'admin', '$2b$10$8KzaNdKIMyOkASCBkeJsKOkDlPHCzMbxOeFKETk5JykxWMwvRGmS6', 'Quản trị viên');
+('admin-001', 'admin', '$2b$10$ufIpmmThizMOsmS2eJqiSOqxNCcDDL4B.yarNCca5kSfet1R1vcuC', 'Quản trị viên');

@@ -19,7 +19,7 @@ require('dotenv').config();
 const SampleData = require('../../client/js/data/sampleData.js');
 
 // Hash bcrypt của mật khẩu "admin123"
-const ADMIN_HASH = '$2b$10$8KzaNdKIMyOkASCBkeJsKOkDlPHCzMbxOeFKETk5JykxWMwvRGmS6';
+const ADMIN_HASH = '$2b$10$ufIpmmThizMOsmS2eJqiSOqxNCcDDL4B.yarNCca5kSfet1R1vcuC';
 
 async function initDb() {
   let conn;
