@@ -1,16 +1,14 @@
 # VR360 - Tham Quan Thực Tế Ảo ĐH Bách Khoa Đà Nẵng
 
-Cần cài sẵn **Node.js** (https://nodejs.org) và **MySQL** (https://dev.mysql.com/downloads) trước.
-
-> **Lưu ý:** Ở lệnh `cd` bên dưới, thay `đường/dẫn/tới/VR360` bằng đường dẫn thật tới thư mục VR360 trên máy bạn.
-> Mẹo: gõ `cd ` (kèm dấu cách) rồi **kéo–thả thư mục VR360** vào cửa sổ → đường dẫn tự điền.
+Cần cài sẵn **Git** (https://git-scm.com), **Node.js** (https://nodejs.org) và **MySQL** (https://dev.mysql.com/downloads) trước.
 
 ---
 
-## 🪟 Windows — mở Command Prompt và gõ:
+## 🪟 Windows — mở Command Prompt và gõ lần lượt:
 
 ```bat
-cd đường\dẫn\tới\VR360
+git clone https://github.com/anpham24/VR360_DHBKDN.git
+cd VR360_DHBKDN
 mysql -u root -p < database\schema.sql
 mysql -u root -p < database\seed.sql
 cd server
@@ -18,10 +16,11 @@ npm install
 npm start
 ```
 
-## 🍎 macOS — mở Terminal và gõ:
+## 🍎 macOS — mở Terminal và gõ lần lượt:
 
 ```bash
-cd đường/dẫn/tới/VR360
+git clone https://github.com/anpham24/VR360_DHBKDN.git
+cd VR360_DHBKDN
 mysql -u root < database/schema.sql
 mysql -u root < database/seed.sql
 cd server
