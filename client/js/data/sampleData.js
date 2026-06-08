@@ -18,8 +18,8 @@ const SampleData = {
       tourId: 'tour-001',
       name: 'Cổng Chính',
       description: 'Cổng chính Đại học Bách khoa Đà Nẵng - 54 Nguyễn Lương Bằng',
-      posX: 43,
-      posY: 84,
+      posX: 42.9,
+      posY: 86.4,
       scenes: ['scene-cc-01', 'scene-cc-02', 'scene-cc-03', 'scene-cc-04'],
       hasScenes: true
     },
@@ -28,20 +28,21 @@ const SampleData = {
       tourId: 'tour-001',
       name: 'Hội Trường Khu F',
       description: 'Hội trường lớn khu F - nơi tổ chức sự kiện',
-      posX: 46,
-      posY: 23,
-      scenes: [],
-      hasScenes: false
+      posX: 52.0,
+      posY: 29.8,
+      scenes: ['scene-htf-01'],
+      hasScenes: true
     },
     {
       locationId: 'loc-khuf',
       tourId: 'tour-001',
       name: 'Khu F',
       description: 'Tòa nhà khu F - giảng đường và phòng thực hành',
-      posX: 44,
-      posY: 16,
-      scenes: [],
-      hasScenes: false
+      posX: 45.9,
+      posY: 22.7,
+      scenes: ['scene-kf-01', 'scene-kf-02', 'scene-kf-03'],
+      hasScenes: true,
+      startSceneIndex: 1
     },
     {
       locationId: 'loc-khua',
@@ -60,8 +61,8 @@ const SampleData = {
       description: 'Khu B - Phòng học và thí nghiệm',
       posX: 57,
       posY: 37,
-      scenes: [],
-      hasScenes: false
+      scenes: ['scene-kb-01'],
+      hasScenes: true
     },
     {
       locationId: 'loc-khuc',
@@ -78,10 +79,10 @@ const SampleData = {
       tourId: 'tour-001',
       name: 'Khu E',
       description: 'Khu E',
-      posX: 82,
-      posY: 10,
-      scenes: [],
-      hasScenes: false
+      posX: 84,
+      posY: 20,
+      scenes: ['scene-ke-01', 'scene-ke-02', 'scene-ke-03', 'scene-ke-04', 'scene-ke-05'],
+      hasScenes: true
     },
     {
       locationId: 'loc-khuh',
@@ -110,8 +111,8 @@ const SampleData = {
       description: 'Trung tâm học liệu - thư viện và tài liệu',
       posX: 45,
       posY: 45,
-      scenes: [],
-      hasScenes: false
+      scenes: ['scene-tthl-01'],
+      hasScenes: true
     },
     {
       locationId: 'loc-congphu',
@@ -120,8 +121,8 @@ const SampleData = {
       description: 'Cổng phụ',
       posX: 66,
       posY: 39,
-      scenes: [],
-      hasScenes: false
+      scenes: ['scene-cp-01'],
+      hasScenes: true
     },
     {
       locationId: 'loc-loivaocongphu',
@@ -138,10 +139,10 @@ const SampleData = {
       tourId: 'tour-001',
       name: 'Tòa Nhà Thông Minh',
       description: 'Tòa nhà thông minh',
-      posX: 77.5,
-      posY: 7,
-      scenes: [],
-      hasScenes: false
+      posX: 78.5,
+      posY: 11.5,
+      scenes: ['scene-tn-01', 'scene-tn-02', 'scene-tn-03', 'scene-tn-04', 'scene-tn-05'],
+      hasScenes: true
     }
   ],
 
@@ -467,6 +468,423 @@ const SampleData = {
           targetPitch: 0
         }
       ]
+    },
+
+    // ============ TÒA NHÀ THÔNG MINH (anh12 → anh16) ============
+    {
+      sceneId: 'scene-tn-01',
+      locationId: 'loc-toanhathongminh',
+      title: 'Tòa Nhà Thông Minh - Ảnh 1/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh12.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-tn01-next',
+          sceneId: 'scene-tn-01',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-tn-02',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-tn-02',
+      locationId: 'loc-toanhathongminh',
+      title: 'Tòa Nhà Thông Minh - Ảnh 2/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh13.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-tn02-prev',
+          sceneId: 'scene-tn-02',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-tn-01',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-tn02-next',
+          sceneId: 'scene-tn-02',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-tn-03',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-tn-03',
+      locationId: 'loc-toanhathongminh',
+      title: 'Tòa Nhà Thông Minh - Ảnh 3/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh14.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-tn03-prev',
+          sceneId: 'scene-tn-03',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-tn-02',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-tn03-next',
+          sceneId: 'scene-tn-03',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-tn-04',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-tn-04',
+      locationId: 'loc-toanhathongminh',
+      title: 'Tòa Nhà Thông Minh - Ảnh 4/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh15.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-tn04-prev',
+          sceneId: 'scene-tn-04',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-tn-03',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-tn04-next',
+          sceneId: 'scene-tn-04',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-tn-05',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-tn-05',
+      locationId: 'loc-toanhathongminh',
+      title: 'Tòa Nhà Thông Minh - Ảnh 5/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh16.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-tn05-prev',
+          sceneId: 'scene-tn-05',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-tn-04',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+
+    // ============ KHU E (anh16 → anh12, đảo ngược) ============
+    {
+      sceneId: 'scene-ke-01',
+      locationId: 'loc-khue',
+      title: 'Khu E - Ảnh 1/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh16.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-ke01-next',
+          sceneId: 'scene-ke-01',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-ke-02',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-ke-02',
+      locationId: 'loc-khue',
+      title: 'Khu E - Ảnh 2/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh15.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-ke02-prev',
+          sceneId: 'scene-ke-02',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-ke-01',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-ke02-next',
+          sceneId: 'scene-ke-02',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-ke-03',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-ke-03',
+      locationId: 'loc-khue',
+      title: 'Khu E - Ảnh 3/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh14.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-ke03-prev',
+          sceneId: 'scene-ke-03',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-ke-02',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-ke03-next',
+          sceneId: 'scene-ke-03',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-ke-04',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-ke-04',
+      locationId: 'loc-khue',
+      title: 'Khu E - Ảnh 4/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh13.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-ke04-prev',
+          sceneId: 'scene-ke-04',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-ke-03',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-ke04-next',
+          sceneId: 'scene-ke-04',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-ke-05',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-ke-05',
+      locationId: 'loc-khue',
+      title: 'Khu E - Ảnh 5/5',
+      imageUrl: 'assets/panoramas/ToaNhaKhuE/anh12.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-ke05-prev',
+          sceneId: 'scene-ke-05',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-ke-04',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+
+    // ====================== HỘI TRƯỜNG KHU F (anh17) ======================
+    {
+      sceneId: 'scene-htf-01',
+      locationId: 'loc-hoitruongkhuf',
+      title: 'Hội Trường Khu F',
+      imageUrl: 'assets/panoramas/HoiTruongKhuF/anh17.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: []
+    },
+
+    // ====================== KHU F (anh18 → anh20, mở ở anh19) ======================
+    {
+      sceneId: 'scene-kf-01',
+      locationId: 'loc-khuf',
+      title: 'Khu F - Ảnh 1/3',
+      imageUrl: 'assets/panoramas/KhuF/anh18.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-kf01-next',
+          sceneId: 'scene-kf-01',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-kf-02',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-kf-02',
+      locationId: 'loc-khuf',
+      title: 'Khu F - Ảnh 2/3',
+      imageUrl: 'assets/panoramas/KhuF/anh19.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-kf02-prev',
+          sceneId: 'scene-kf-02',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-kf-01',
+          targetYaw: 0,
+          targetPitch: 0
+        },
+        {
+          hotspotId: 'hs-kf02-next',
+          sceneId: 'scene-kf-02',
+          type: 'nav',
+          yaw: 0,
+          pitch: -30,
+          label: 'Đi tiếp',
+          targetSceneId: 'scene-kf-03',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+    {
+      sceneId: 'scene-kf-03',
+      locationId: 'loc-khuf',
+      title: 'Khu F - Ảnh 3/3',
+      imageUrl: 'assets/panoramas/KhuF/anh20.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: [
+        {
+          hotspotId: 'hs-kf03-prev',
+          sceneId: 'scene-kf-03',
+          type: 'nav',
+          yaw: 180,
+          pitch: -30,
+          label: 'Quay lại',
+          targetSceneId: 'scene-kf-02',
+          targetYaw: 0,
+          targetPitch: 0
+        }
+      ]
+    },
+
+    // ====================== KHU B (anh21) ======================
+    {
+      sceneId: 'scene-kb-01',
+      locationId: 'loc-khub',
+      title: 'Khu B',
+      imageUrl: 'assets/panoramas/KhuB/anh21.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: []
+    },
+
+    // ====================== TRUNG TÂM HỌC LIỆU (anh22) ======================
+    {
+      sceneId: 'scene-tthl-01',
+      locationId: 'loc-trungtamhoclieu',
+      title: 'Trung Tâm Học Liệu',
+      imageUrl: 'assets/panoramas/TrungTamHocLieu/anh22.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: []
+    },
+
+    // ====================== CỔNG PHỤ (anh23) ======================
+    {
+      sceneId: 'scene-cp-01',
+      locationId: 'loc-congphu',
+      title: 'Cổng Phụ',
+      imageUrl: 'assets/panoramas/CongPhu/anh23.jpg',
+      defaultYaw: 0,
+      defaultPitch: 0,
+      defaultHfov: 100,
+      hotspots: []
     }
   ],
 

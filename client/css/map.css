@@ -123,6 +123,26 @@
   pointer-events: none;
 }
 
+/* ===== DEBUG TOẠ ĐỘ (bấm phím D) ===== */
+.coord-debug-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-size: 13px;
+  font-family: monospace;
+  pointer-events: none;
+  line-height: 1.2;
+}
+
+.campus-map-wrapper.coord-debug-on {
+  cursor: crosshair;
+}
+
 /* ===== CAMPUS HOTSPOT ===== */
 .campus-hotspot {
   position: absolute;

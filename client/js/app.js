@@ -64,8 +64,12 @@ const App = {
     Helpers.hide('#map-view');
     Helpers.show('#vr-view');
 
-    // Load scene list for sequential navigation
-    this.sceneLoader.loadSceneList(scenes, 0);
+    // Load scene list for sequential navigation.
+    // Một số location mở ở ảnh giữa (vd Khu F mở ở anh19) qua startSceneIndex.
+    const startIndex = Number.isInteger(location.startSceneIndex)
+      ? Math.max(0, Math.min(location.startSceneIndex, scenes.length - 1))
+      : 0;
+    this.sceneLoader.loadSceneList(scenes, startIndex);
   },
 
   _closeVR() {
